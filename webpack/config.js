@@ -1,7 +1,21 @@
 import webpack from 'webpack';
+import path from 'path';
+import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-const LAUNCH_COMMAND = process.env.NODE_ENV;
-const IS_PRODUCTION = LAUNCH_COMMAND === 'production' || LAUNCH_COMMAND === 'productionDemo';
+const LAUNCH_COMMAND = !!(process.env.NODE_ENV) && process.env.NODE_ENV.trim();
+const IS_PRODUCTION = !!(process.env.NODE_ENV) && (process.env.NODE_ENV.trim() === 'production');
+
+// -----------------------------------------------------------------------
+// Paths (relative to current directory)
+
+const PATHS = {
+  template: path.join(__dirname, '../src/index.html'),
+  build: IS_PRODUCTION ? path.join(__dirname, '../dist') : path.join(__dirname, 'src/dist'),
+  // publicPath: 'http://localhost:8080/dist'
+  publicPath: IS_PRODUCTION ? '../dist' : 'http://localhost:8080/dist'
+};
+
 
 // -----------------------------------------------------------------------
 // Plugin Definitions
@@ -16,18 +30,36 @@ const environmentPlugin = new webpack.DefinePlugin({
 const developmentConfig = {
   devtool: 'source-map',
   devServer: { hot: true },
+  entry: {
+    app: [
+      'react-hot-loader/patch',
+      './src/index.js'
+    ]
+  },
+  output: {
+    filename: 'bundle.js',
+    path: PATHS.build,
+    publicPath: PATHS.publicPath
+  },
   plugins: [
     environmentPlugin,
+    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
   ]
 };
 
 const productionConfig = {
-  devtool: 'cheap-module-source-map',
-  devServer: {},
+  devtool: 'source-map',
   entry: { app: ['./src/index.js'] },
+  output: {
+    filename: 'bundle.js',
+    path: PATHS.build,
+    publicPath: PATHS.publicPath
+  },
   plugins: [
-    environmentPlugin
+    environmentPlugin,
+    new HtmlWebpackPlugin({ template: PATHS.template }),
+    // new UglifyJSPlugin()
   ]
 };
 
