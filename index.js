@@ -16,17 +16,12 @@ function createWindow() {
     height: 600
   });
 
-  // console.log('IS PRODUCTION? ', IS_PRODUCTION, " [" +  process.env.NODE_ENV + "]");
-
   // load index.html
-
   win.loadURL(url.format({
     pathname: IS_PRODUCTION ? path.join(__dirname, 'dist/index.html') : path.join(__dirname,'src/index.html'),
     protocol: 'file:',
     slashes: 'true'
   }));
-
-  console.log('PATH 2 IS: ', path.join(__dirname,'src/index.html'));
 
   // open devTools
   win.webContents.openDevTools();

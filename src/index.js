@@ -4,22 +4,28 @@ import { AppContainer } from 'react-hot-loader';
 
 import App from './components/app';
 
-ReactDOM.render(<App/>, document.getElementById('content'));
-//
-// const renderComponent = (Component) => {
-//   ReactDOM.render(
-//     <AppContainer>
-//       <Component />
-//     </AppContainer>,
-//     document.getElementById('content')
-//   );
-// };
-//
-// renderComponent(App);
-//
-// if (module.hot) {
-//   module.hot.accept('./components/app.js', () => {
-//     const NextComponent = require('./components/app.js').default;
-//     renderComponent(NextComponent);
-//   })
-// }
+// ReactDOM.render(
+//   <AppContainer>
+//     <Component />
+//   </AppContainer>,
+//   document.getElementById('content')
+// );
+
+
+const renderComponent = (Component) => {
+  ReactDOM.render(
+    <AppContainer>
+      <Component />
+    </AppContainer>,
+    document.getElementById('content')
+  );
+};
+
+renderComponent(App);
+
+if (module.hot) {
+  module.hot.accept('./components/app.js', () => {
+    const NextComponent = require('./components/app.js').default;
+    renderComponent(NextComponent);
+  })
+}

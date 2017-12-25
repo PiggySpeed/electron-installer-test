@@ -1,7 +1,7 @@
 import webpack from 'webpack';
 import path from 'path';
 import UglifyJSPlugin from 'uglifyjs-webpack-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 const LAUNCH_COMMAND = !!(process.env.NODE_ENV) && process.env.NODE_ENV.trim();
 const IS_PRODUCTION = !!(process.env.NODE_ENV) && (process.env.NODE_ENV.trim() === 'production');
@@ -11,11 +11,10 @@ const IS_PRODUCTION = !!(process.env.NODE_ENV) && (process.env.NODE_ENV.trim() =
 
 const PATHS = {
   template: path.join(__dirname, '../src/index.html'),
+  destination: path.join(__dirname, '../dist/index.html'),
   build: IS_PRODUCTION ? path.join(__dirname, '../dist') : path.join(__dirname, 'src/dist'),
-  // publicPath: 'http://localhost:8080/dist'
-  publicPath: IS_PRODUCTION ? '../dist' : 'http://localhost:8080/dist'
+  publicPath: 'http://localhost:8080/dist'
 };
-
 
 // -----------------------------------------------------------------------
 // Plugin Definitions
@@ -52,14 +51,13 @@ const productionConfig = {
   devtool: 'source-map',
   entry: { app: ['./src/index.js'] },
   output: {
-    filename: 'bundle.js',
-    path: PATHS.build,
-    publicPath: PATHS.publicPath
+    filename: './bundle.js',
+    path: PATHS.build
   },
   plugins: [
     environmentPlugin,
-    new HtmlWebpackPlugin({ template: PATHS.template }),
-    // new UglifyJSPlugin()
+    new CopyWebpackPlugin([{ from: PATHS.template, to: PATHS.destination }]),
+    new UglifyJSPlugin()
   ]
 };
 

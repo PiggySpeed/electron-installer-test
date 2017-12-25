@@ -8,7 +8,9 @@
   <div id="content"></div>
   <script>
     {
-      const script = (process.env.NODE_ENV === 'production') ? './dist/bundle.js' : 'http://localhost:8080/dist/bundle.js';
+      const script = (!!(process.env.NODE_ENV) && (process.env.NODE_ENV.trim() === 'production'))
+        ? './bundle.js'
+        : 'http://localhost:8080/dist/bundle.js';
       document.write('<script defer src="' + script + '"><\/script>');
     }
   </script>
