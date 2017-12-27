@@ -9,13 +9,16 @@
     "devWin": "SET NODE_ENV=development && webpack-dev-server",
     "prod": "cross-env NODE_ENV=production webpack && electron ./src/main.js",
     "prodWin": "SET NODE_ENV=production && webpack && electron ./src/main.js",
+    "test": "ECHO 'tests not implemented'",
     "buildTest": "SET NODE_ENV=production && build --dir",
-    "build": "SET NODE_ENV=production && build"
+    "build": "SET NODE_ENV=production && build",
+    "gh-publish": "electron-builder --x64 -p always"
   },
   "build": {
     "appId": "com.example.app",
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "publish": ["github"]
     },
     "directories": {
       "buildResources": "build",
@@ -36,6 +39,7 @@
   },
   "homepage": "https://github.com/PiggySpeed/electron-installer-test#readme",
   "dependencies": {
+    "electron-updater": "^2.17.6",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
   },
