@@ -4,14 +4,6 @@ import { AppContainer } from 'react-hot-loader';
 
 import App from './components/app';
 
-// ReactDOM.render(
-//   <AppContainer>
-//     <Component />
-//   </AppContainer>,
-//   document.getElementById('content')
-// );
-
-
 const renderComponent = (Component) => {
   ReactDOM.render(
     <AppContainer>

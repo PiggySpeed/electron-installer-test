@@ -18,7 +18,7 @@ function createWindow() {
 
   // load index.html
   win.loadURL(url.format({
-    pathname: IS_PRODUCTION ? path.join(__dirname, 'dist/index.html') : path.join(__dirname,'src/index.html'),
+    pathname: IS_PRODUCTION ? path.join(__dirname, '../build/index.html') : path.join(__dirname,'index.html'),
     protocol: 'file:',
     slashes: 'true'
   }));
