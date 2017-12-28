@@ -34,6 +34,20 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run: npm test
+      # - run: npm test
 
+  deploy-dev:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:8.9
+#    environment:
+#      - API_JSON: $(printf '{"tag_name": "v%s","target_commitish": "master","name": "v%s","body": "Release of version %s","draft": false,"prerelease": false}' $VERSION $VERSION $VERSION)
+    steps:
+      - checkout
 
+      # publish new release on github
+      - run:
+          name: Publish new release on GitHub
+          command: |
+            API_JSON=$(printf '{"tag_name": "v%s","target_commitish": "master","name": "v%s","body": "Release of version %s","draft": false,"prerelease": false}' $VERSION $VERSION $VERSION)
+            curl --data "$API_JSON" https://api.github.com/repos/PiggySpeed/electron-installer-test/releases?access_token=$GITHUB_TOKEN
